@@ -9,7 +9,8 @@ import {
   ValidationPipe,
   Put,
   Param,
-  Delete
+  Delete,
+  Query
 } from '@nestjs/common'
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard'
 import { ProductService } from './product.service'
@@ -21,9 +22,10 @@ export class ProductController {
   constructor(private productService: ProductService) {}
 
   @Get()
-  async find() {
-    const products = await this.productService.find()
-    return { data: products }
+  async find(@Query() query) {
+    const {page} = query
+    const products = await this.productService.find({page})
+    return products
   }
 
   @Post()

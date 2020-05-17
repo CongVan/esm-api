@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose'
+import * as mongoosePaginate from 'mongoose-paginate-v2'
 
 export const ProductSchema = new mongoose.Schema(
   {
@@ -16,3 +17,18 @@ export const ProductSchema = new mongoose.Schema(
     versionKey: false
   }
 )
+ProductSchema.plugin(mongoosePaginate)
+
+mongoosePaginate.paginate.options = {
+  page: 1,
+  limit: 15,
+  customLabels: {
+    docs: 'data',
+    totalDocs: 'total',
+    totalPages: 'total_pages',
+    pagingCounter: false,
+    prevPage: false,
+    nextPage: false,
+    meta: 'pagination'
+  }
+}

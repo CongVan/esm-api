@@ -6,7 +6,7 @@ import {
   Inject
 } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
-import { Model } from 'mongoose'
+import { PaginateModel } from 'mongoose-paginate-v2'
 import { Product } from './product.interface'
 import { ProductDTO } from './product.dto'
 import { REQUEST } from '@nestjs/core'
@@ -15,13 +15,17 @@ import { Request } from 'express'
 @Injectable({ scope: Scope.REQUEST })
 export class ProductService {
   constructor(
-    @InjectModel('Product') private readonly productModel: Model<Product>,
+    @InjectModel('Product')
+    private readonly productModel: PaginateModel<Product>,
     @Inject(REQUEST) private readonly request: Request
   ) {}
 
-  async find(): Promise<ProductDTO[]> | null {
+  async find({ page = 1 }): Promise<ProductDTO[]> | null {
     const user: any = this.request.user
-    const products = await this.productModel.find({ created_by: user._id })
+    const products = await this.productModel.paginate(
+      { created_by: user._id },
+      { page }
+    )
     return products
   }
 
