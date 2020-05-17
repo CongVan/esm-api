@@ -1,0 +1,233 @@
+{
+	"info": {
+		"_postman_id": "142e5f5e-c77c-4551-9523-2e022e971edf",
+		"name": "esm",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "gets",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-api}}/products",
+							"host": [
+								"{{url-api}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Áo thun nam mẫu mới\",\n\t\"original_price\": 100000,\n\t\"sell_price\": 500000,\n\t\"quantity\": 50\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-api}}/products",
+							"host": [
+								"{{url-api}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"enable\": true,\n    \"_id\": \"5ec130431e4460569fc4b933\",\n    \"name\": \"Áo thun nam mẫu mới Update 1\",\n    \"original_price\": 100000,\n    \"sell_price\": 500000,\n    \"quantity\": 50,\n    \"created_by\": \"5ec11cb32a0a43266fbaad46\",\n    \"created_at\": \"2020-05-17T12:38:27.405Z\",\n    \"updated_at\": \"2020-05-17T12:38:27.405Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-api}}/products/5ec130431e4460569fc4b933",
+							"host": [
+								"{{url-api}}"
+							],
+							"path": [
+								"products",
+								"5ec130431e4460569fc4b933"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url-api}}/products/5ec130431e4460569fc4b933",
+							"host": [
+								"{{url-api}}"
+							],
+							"path": [
+								"products",
+								"5ec130431e4460569fc4b933"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "960f88aa-12ba-44f1-90e2-f42dfc5610cc",
+						"exec": [
+							"pm.sendRequest({",
+							"    url: pm.environment.get(\"url-api\") + '/auth/login',",
+							"    method: 'POST',",
+							"    header: {",
+							"        'content-type': 'application/json'",
+							"    },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: JSON.stringify({ username: \"admin\", password: \"admin\" })",
+							"    }",
+							"}, function (err, res) {",
+							"    console.log(res);",
+							"    pm.environment.set(\"access_token\", res.json().access_token);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"admin\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url-api}}/auth/login",
+					"host": [
+						"{{url-api}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"admin\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url-api}}/auth/register",
+					"host": [
+						"{{url-api}}"
+					],
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "me",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url-api}}/auth/me",
+					"host": [
+						"{{url-api}}"
+					],
+					"path": [
+						"auth",
+						"me"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "a8f764e1-7f08-4070-9289-e86221543077",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "355e3272-2cda-4720-928c-2e282391f17d",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
