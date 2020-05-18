@@ -5,7 +5,10 @@ import { Logger } from '@nestjs/common'
 export const UserSchema = new mongoose.Schema(
   {
     username: { type: String, required: true },
-    password: { type: String, required: true, select: false }
+    password: { type: String, required: true, select: false },
+    fb_access_token: { type: String },
+    full_name: { type: String },
+    avatar: { type: String }
   },
   {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
