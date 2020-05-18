@@ -71,10 +71,10 @@ export class ProductService {
     return true
   }
 
-  isOwnerProduct(produtCretedById): boolean {
+  isOwnerProduct(productCreatedById): boolean {
     const user: any = this.request.user
 
-    if (String(user._id) !== String(produtCretedById)) {
+    if (String(user._id) !== String(productCreatedById)) {
       throw new HttpException(
         'Not authoritative to product',
         HttpStatus.NON_AUTHORITATIVE_INFORMATION

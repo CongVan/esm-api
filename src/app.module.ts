@@ -8,6 +8,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { MongooseConfigService } from './database/mongo-config-service';
 import { ProductModule } from './product/product.module';
 import { FacebookModule } from './facebook/facebook.module';
+import { PageModule } from './page/page.module';
 import configuration from './config/configuration';
 
 @Module({
@@ -24,6 +25,7 @@ import configuration from './config/configuration';
     UserModule,
     ProductModule,
     FacebookModule,
+    PageModule,
   ],
   controllers: [AppController],
   providers: [AppService],

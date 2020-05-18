@@ -7,6 +7,7 @@ import { JwtModule } from '@nestjs/jwt'
 import { JwtStrategy } from './jwt.strategy'
 import { ConfigService } from '@nestjs/config'
 import { FacebookModule } from 'src/facebook/facebook.module'
+import { PageService } from 'src/page/page.service'
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { FacebookModule } from 'src/facebook/facebook.module'
       inject: [ConfigService]
     })
   ],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, PageService],
   controllers: [AuthController]
 })
 export class AuthModule {}

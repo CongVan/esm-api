@@ -4,13 +4,15 @@ import { UserDTO } from 'src/user/user.dto'
 import { JwtService } from '@nestjs/jwt'
 import { FacebookService } from 'src/facebook/facebook.service'
 import { FacebookDTO } from 'src/facebook/facebook.dto'
+import { PageService } from 'src/page/page.service'
 
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
     private jwtService: JwtService,
-    private facebookService: FacebookService
+    private facebookService: FacebookService,
+    private pageService: PageService
   ) {}
 
   async validateUser(username: string, password: string): Promise<any> {
@@ -38,7 +40,7 @@ export class AuthService {
 
     const query = { ...(userId ? { _id: userId } : { fb_id: fbUserInfo.id }) }
 
-    const userUpdate = this.userService.findOneAndUpdate(
+    const userUpdate = await this.userService.findOneAndUpdate(
       query,
       {
         full_name: name,
@@ -50,6 +52,17 @@ export class AuthService {
       { new: true, upsert: true, useFindAndModify: false }
     )
 
-    return userUpdate
+    //Fetch Pages
+    const pages: any = await this.facebookService.getUserPages(access_token)
+    const pagesDTO = this.pageService.addPages(
+      pages.map(page => ({
+        page_id: page.id,
+        name,
+        access_token,
+        user_id: userUpdate._id
+      }))
+    )
+
+    return { userUpdate, pages: pagesDTO }
   }
 }
