@@ -4,11 +4,13 @@ import { Logger } from '@nestjs/common'
 
 export const UserSchema = new mongoose.Schema(
   {
-    username: { type: String, required: true },
+    username: { type: String, required: true, unique: true },
     password: { type: String, required: true, select: false },
     fb_access_token: { type: String },
+    fb_id: { type: String, unique: true },
     full_name: { type: String },
-    avatar: { type: String }
+    avatar: { type: String },
+    email: { type: String }
   },
   {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
@@ -21,3 +23,4 @@ UserSchema.pre('save', function(next) {
   user.password = md5(user.password)
   next()
 })
+mongoose.set('useCreateIndex', true)

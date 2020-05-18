@@ -5,4 +5,6 @@ export class UserDTO {
   readonly fb_access_token: string
   readonly full_name: string
   readonly avatar: string
+  readonly fb_id:string
+  readonly email:string
 }

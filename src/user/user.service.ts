@@ -17,12 +17,17 @@ export class UserService {
     return user
   }
 
+  async findUserByQuery(query): Promise<User | null> {
+    const user = await this.userModel.findOne(query)
+    return user
+  }
+
   async findUserById(id): Promise<User | null> {
     const user = await this.userModel.findById(id)
     return user
   }
 
-  async addUser(userDTO: UserDTO): Promise<User> {     
+  async addUser(userDTO: UserDTO): Promise<User> {
     const { username } = userDTO
     const isExistsUser = await this.userModel.findOne({ username })
     if (isExistsUser) {
@@ -30,5 +35,10 @@ export class UserService {
     }
     const user = await new this.userModel(userDTO)
     return user.save()
+  }
+
+  async findOneAndUpdate(query, update, options): Promise<UserDTO> | null {
+    const user = await this.userModel.findOneAndUpdate(query, update, options)
+    return user
   }
 }

@@ -5,7 +5,8 @@ import {
   UseGuards,
   Body,
   Get,
-  Param
+  Param,
+  Query
 } from '@nestjs/common'
 import { UserDTO } from 'src/user/user.dto'
 import { UserService } from 'src/user/user.service'
@@ -20,10 +21,11 @@ export class AuthController {
   ) {}
 
   @Post('login/:platform')
-  async login(@Body() user: UserDTO, @Param() params) {
+  async login(@Body() user: UserDTO, @Param() params, @Query() query) {
     const { platform } = params
     if (platform === 'fb') {
-      return await this.authService.loginWithFacebook(user.fb_access_token)
+      
+      return await this.authService.loginWithFacebook(user.fb_access_token, query.userId)
     }
     return await this.authService.login(user)
   }
