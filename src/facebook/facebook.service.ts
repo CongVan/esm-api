@@ -1,15 +1,15 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common'
 import * as graph from 'fbgraph'
-import FbPromise from './FbP'
+import FbPromise from './fbpromise'
 @Injectable()
 export class FacebookService {
   async getUserInfo(access_token) {
-      const fbPromise = new FbPromise()
-    const fbUser = await this.graphPromise({
-      method: 'get',
-      query: 'me?fields=id,name',
-      access_token
-    })
+    const fbPromise = new FbPromise({ access_token })
+    const fbUser = await fbPromise
+      .get('me', { fields: 'id,name,email' })
+      .catch(err => {
+        throw new HttpException(err.message, HttpStatus.INTERNAL_SERVER_ERROR)
+      })
     return fbUser
   }
 
