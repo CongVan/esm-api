@@ -2,6 +2,7 @@
     "cSpell.words": [
         "fbgraph",
         "nestjs",
-        "prebuild"
+        "prebuild",
+        "upsert"
     ]
 }

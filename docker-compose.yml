@@ -13,6 +13,10 @@ services:
     tty: true
     expose:
       - ${MONGO_DB_PORT}
+  redis:
+    image: redis
+    ports:
+      - ${REDIS_PORT}:${REDIS_PORT}
   # api:
   #   build:
   #     context: .

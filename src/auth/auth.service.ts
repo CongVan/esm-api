@@ -45,24 +45,16 @@ export class AuthService {
       {
         full_name: name,
         fb_id: id,
-        email,
+        ...(email && { email }),
         fb_access_token: access_token,
-        ...(!userId && { username: email })
+        ...(!userId && email && { username: email })
       },
       { new: true, upsert: true, useFindAndModify: false }
     )
+    await this.facebookService.addJobSyncUserInfo(userUpdate)
 
-    //Fetch Pages
-    const pages: any = await this.facebookService.getUserPages(access_token)
-    const pagesDTO = this.pageService.addPages(
-      pages.map(page => ({
-        page_id: page.id,
-        name,
-        access_token,
-        user_id: userUpdate._id
-      }))
-    )
 
-    return { userUpdate, pages: pagesDTO }
+
+    return { access_token: this.jwtService.sign({ user: userUpdate }) }
   }
 }

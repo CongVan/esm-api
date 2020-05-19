@@ -9,7 +9,26 @@ export class PageService {
   constructor(@InjectModel('Page') private readonly pageModel: Model<Page>) {}
 
   async addPages(pagesDTO: PageDTO[]): Promise<PageDTO[]> | null {
-    const pages = await this.pageModel.insertMany(pagesDTO)
+    if (pagesDTO.length === 0) {
+      return []
+    }
+
+    const pages = await Promise.all(
+      pagesDTO.map(async page => {
+        const { page_id, user_id } = page
+        const options = {
+          new: true,
+          upsert: true,
+          useFindAndModify: false
+        }
+        return await this.pageModel.findOneAndUpdate(
+          { page_id, user_id },
+          page,
+          options
+        )
+      })
+    )
+
     return pages
   }
 }

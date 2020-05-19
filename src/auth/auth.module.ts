@@ -7,13 +7,14 @@ import { JwtModule } from '@nestjs/jwt'
 import { JwtStrategy } from './jwt.strategy'
 import { ConfigService } from '@nestjs/config'
 import { FacebookModule } from 'src/facebook/facebook.module'
-import { PageService } from 'src/page/page.service'
+import { PageModule } from 'src/page/page.module'
 
 @Module({
   imports: [
     UserModule,
     PassportModule,
     FacebookModule,
+    PageModule,
     JwtModule.registerAsync({
       useFactory: async (config: ConfigService) => ({
         secret: config.get('jwt.secret'),
@@ -22,7 +23,7 @@ import { PageService } from 'src/page/page.service'
       inject: [ConfigService]
     })
   ],
-  providers: [AuthService, JwtStrategy, PageService],
+  providers: [AuthService, JwtStrategy],
   controllers: [AuthController]
 })
 export class AuthModule {}

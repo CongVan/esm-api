@@ -1,4 +1,4 @@
-import { FbPromise } from './fbpromise'
+import FbPromise from './fbpromise'
 
 describe('Fbpromise', () => {
   it('should be defined', () => {

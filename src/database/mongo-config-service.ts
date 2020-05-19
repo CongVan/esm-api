@@ -10,6 +10,8 @@ export class MongooseConfigService implements MongooseOptionsFactory {
       'database'
     )
     const uri = `mongodb://${user}:${pass}@${host}:${port}/${database}?authSource=admin`
+    console.log(uri);
+    
     return {
       uri,
       useNewUrlParser: true,
