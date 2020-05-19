@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "142e5f5e-c77c-4551-9523-2e022e971edf",
+		"_postman_id": "f22a411b-d851-4c66-b6ef-36eee1ec4a09",
 		"name": "esm",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -100,12 +100,71 @@
 			"protocolProfileBehavior": {}
 		},
 		{
+			"name": "facebook",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "246e47c1-e089-4d04-baed-4b21697d6610",
+								"exec": [
+									"pm.sendRequest({",
+									"    url: pm.environment.get(\"url-api\") + '/auth/login/fb',",
+									"    method: 'POST',",
+									"    header: {",
+									"        'content-type': 'application/json'",
+									"    },",
+									"    body: {",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify({ \"fb_access_token\": \"EAADLOKLtVJEBAK1O9lFg1Jx2tUSN5BjNojBdcSP7Hh6Q5zG7nl4AySDnEbQMTcxj1LdQ5fA7Gm5RnZANBUPQcUhMo6o1ipJ2KLXkykevcj1pwIWcoMKGxV8uYqMxVH3weLeSZANk1p7yejfmgbjrZCfogooZCpfAebHJ4rxUEaZBCSfrH5IN7zu2dJtNXqadHJJawTwsImQZDZD\" })",
+									"    }",
+									"}, function (err, res) {",
+									"    console.log(res);",
+									"    pm.environment.set(\"access_token\", res.json().access_token);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"fb_access_token\": \"EAADLOKLtVJEBAK1O9lFg1Jx2tUSN5BjNojBdcSP7Hh6Q5zG7nl4AySDnEbQMTcxj1LdQ5fA7Gm5RnZANBUPQcUhMo6o1ipJ2KLXkykevcj1pwIWcoMKGxV8uYqMxVH3weLeSZANk1p7yejfmgbjrZCfogooZCpfAebHJ4rxUEaZBCSfrH5IN7zu2dJtNXqadHJJawTwsImQZDZD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-api}}/auth/login/fb",
+							"host": [
+								"{{url-api}}"
+							],
+							"path": [
+								"auth",
+								"login",
+								"fb"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
 			"name": "login",
 			"event": [
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "960f88aa-12ba-44f1-90e2-f42dfc5610cc",
+						"id": "c48ade9f-9529-458e-b733-0fe67246fa76",
 						"exec": [
 							"pm.sendRequest({",
 							"    url: pm.environment.get(\"url-api\") + '/auth/login',",
@@ -211,7 +270,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "a8f764e1-7f08-4070-9289-e86221543077",
+				"id": "c18ff5a8-5fdf-4793-a4b6-353dc6a3c69f",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -221,7 +280,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "355e3272-2cda-4720-928c-2e282391f17d",
+				"id": "848286d0-af84-4c15-8f4b-e6a169d842ad",
 				"type": "text/javascript",
 				"exec": [
 					""
