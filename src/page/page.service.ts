@@ -13,14 +13,16 @@ export class PageService {
       return []
     }
 
+    const options = {
+      new: true,
+      upsert: true,
+      useFindAndModify: false
+    }
+
     const pages = await Promise.all(
       pagesDTO.map(async page => {
         const { page_id, user_id } = page
-        const options = {
-          new: true,
-          upsert: true,
-          useFindAndModify: false
-        }
+
         return await this.pageModel.findOneAndUpdate(
           { page_id, user_id },
           page,

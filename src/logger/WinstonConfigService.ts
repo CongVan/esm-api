@@ -11,15 +11,23 @@ export class WinstonConfigService implements WinstonModuleOptionsFactory {
   createWinstonModuleOptions(): WinstonModuleOptions {
     const { combine, timestamp, label, printf } = format
 
-    const myFormat = printf(({ level, message, label, timestamp }) => {
-      return `${timestamp} [${label}] ${level}: ${message}`
+    const myFormat = printf(({ level, message, timestamp }) => {
+      return `${timestamp} ${level.toUpperCase()}: ${message}`
     })
 
-    // const { host = 'localhost', port = 6379 } = this.config.get('redis')
     return winston.createLogger({
-      format: combine(label({ label: 'Combine' }), timestamp(), myFormat),
+      format: combine(
+        // winston.format.colorize(),
+        timestamp(),
+        myFormat
+        // winston.format.json()
+      ),
       transports: [
         new winston.transports.Console(),
+        new winston.transports.File({
+          filename: 'logs/error.log',
+          level: 'error'
+        }),
         new winston.transports.File({ filename: 'logs/combined.log' })
       ]
     })

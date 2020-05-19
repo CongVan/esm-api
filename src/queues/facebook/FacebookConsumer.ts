@@ -5,11 +5,13 @@ import { UserDTO } from 'src/user/user.dto'
 import { PageService } from 'src/page/page.service'
 import { Logger } from 'winston'
 import { Inject } from '@nestjs/common'
+import { PostService } from 'src/post/post.service'
 @Processor('FacebookQueue')
 export class FacebookConsumer {
   constructor(
     private facebookService: FacebookService,
     private pageService: PageService,
+    private postService: PostService,
     @Inject('winston')
     private logger: Logger
   ) {}
@@ -18,7 +20,7 @@ export class FacebookConsumer {
   async handler(job: Job) {
     const user: UserDTO = job.data
     //Fetch Pages
-    const { data: pages }: any = await this.facebookService.getUserPages(
+    const { data: pages }: any = await this.facebookService.syncPages(
       user.fb_access_token
     )
     const pagesDTO = pages.map(page => ({
@@ -28,13 +30,21 @@ export class FacebookConsumer {
       user_id: user._id
     }))
 
-    const pagesResult = await this.pageService.addPages(pagesDTO)
-    console.log(pagesResult)
-    this.logger.log('info', JSON.stringify(pagesResult))
+    await this.pageService.addPages(pagesDTO)
+    const posts = await this.facebookService.syncPosts(
+      pagesDTO,
+      user.fb_access_token
+    )
+
+    await this.postService.addPosts(posts)
+
+    this.logger.info(
+      `Job: ${job.id}, user: ${user._id}: Sync user info success`
+    )
   }
 
   @OnQueueFailed()
   handleOnQueueFailed(job: Job, err: Error) {
-    this.logger.error(err)
+    this.logger.error(`job: ${job.id}: ${err.message}`)
   }
 }

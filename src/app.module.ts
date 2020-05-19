@@ -14,6 +14,7 @@ import configuration from './config/configuration'
 import { FacebookQueueConfigService } from './queues/facebook/FacebookConfigService'
 import { WinstonModule } from 'nest-winston'
 import { WinstonConfigService } from './logger/WinstonConfigService'
+import { PostModule } from './post/post.module';
 
 @Module({
   imports: [
@@ -32,7 +33,8 @@ import { WinstonConfigService } from './logger/WinstonConfigService'
     UserModule,
     ProductModule,
     FacebookModule,
-    PageModule
+    PageModule,
+    PostModule
   ],
   controllers: [AppController],
   providers: [AppService]
