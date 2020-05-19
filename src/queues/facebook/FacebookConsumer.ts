@@ -1,14 +1,17 @@
-import { Processor, Process, OnQueueActive } from '@nestjs/bull'
+import { Processor, Process, OnQueueActive, OnQueueFailed } from '@nestjs/bull'
 import { Job } from 'bull'
 import { FacebookService } from 'src/facebook/facebook.service'
 import { UserDTO } from 'src/user/user.dto'
 import { PageService } from 'src/page/page.service'
-
+import { Logger } from 'winston'
+import { Inject } from '@nestjs/common'
 @Processor('FacebookQueue')
 export class FacebookConsumer {
   constructor(
     private facebookService: FacebookService,
-    private pageService: PageService
+    private pageService: PageService,
+    @Inject('winston')
+    private logger: Logger
   ) {}
 
   @Process('syncUserInfo')
@@ -27,5 +30,11 @@ export class FacebookConsumer {
 
     const pagesResult = await this.pageService.addPages(pagesDTO)
     console.log(pagesResult)
+    this.logger.log('info', JSON.stringify(pagesResult))
+  }
+
+  @OnQueueFailed()
+  handleOnQueueFailed(job: Job, err: Error) {
+    this.logger.error(err)
   }
 }

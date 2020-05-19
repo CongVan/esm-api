@@ -9,14 +9,14 @@ services:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_DB_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_DB_PASS}
     volumes:
-      - ./data/db:/data/db
+      - ./docker/mongo/data:/data/db
     tty: true
     expose:
       - ${MONGO_DB_PORT}
   redis:
     image: redis
     ports:
-      - ${REDIS_PORT}:${REDIS_PORT}
+      - ${REDIS_PORT}:${REDIS_PORT} 
   # api:
   #   build:
   #     context: .

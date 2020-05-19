@@ -12,6 +12,8 @@ import { PageModule } from './page/page.module'
 import { BullModule } from '@nestjs/bull'
 import configuration from './config/configuration'
 import { FacebookQueueConfigService } from './queues/facebook/FacebookConfigService'
+import { WinstonModule } from 'nest-winston'
+import { WinstonConfigService } from './logger/WinstonConfigService'
 
 @Module({
   imports: [
@@ -22,6 +24,9 @@ import { FacebookQueueConfigService } from './queues/facebook/FacebookConfigServ
     }),
     MongooseModule.forRootAsync({
       useClass: MongooseConfigService
+    }),
+    WinstonModule.forRootAsync({
+      useClass: WinstonConfigService,
     }),
     AuthModule,
     UserModule,

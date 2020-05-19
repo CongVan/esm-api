@@ -35,4 +35,5 @@ lerna-debug.log*
 
 #ENV
 .env
-/data
+#Docker data
+/docker
