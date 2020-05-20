@@ -8,7 +8,7 @@ import { PostDTO } from './post.dto'
 export class PostService {
   constructor(@InjectModel('Post') private readonly postModel: Model<Post>) {}
 
-  async addPosts(postsDTO: PostDTO[]): Promise<PostDTO[]> | null {
+  async addPosts(postsDTO: PostDTO[]): Promise<PostDTO[]> {
     if (postsDTO.length === 0) {
       return []
     }

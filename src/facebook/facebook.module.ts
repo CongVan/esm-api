@@ -6,11 +6,13 @@ import { FacebookQueueConfigService } from 'src/queues/facebook/FacebookConfigSe
 import { FacebookConsumer } from 'src/queues/facebook/FacebookConsumer'
 import { PageModule } from 'src/page/page.module'
 import { PostModule } from 'src/post/post.module'
+import { CommentModule } from 'src/comment/comment.module'
 
 @Module({
   imports: [
     PageModule,
     PostModule,
+    CommentModule,
     BullModule.registerQueueAsync({
       name: 'FacebookQueue',
       useClass: FacebookQueueConfigService

@@ -15,6 +15,7 @@ import { FacebookQueueConfigService } from './queues/facebook/FacebookConfigServ
 import { WinstonModule } from 'nest-winston'
 import { WinstonConfigService } from './logger/WinstonConfigService'
 import { PostModule } from './post/post.module';
+import { CommentModule } from './comment/comment.module';
 
 @Module({
   imports: [
@@ -34,7 +35,8 @@ import { PostModule } from './post/post.module';
     ProductModule,
     FacebookModule,
     PageModule,
-    PostModule
+    PostModule,
+    CommentModule
   ],
   controllers: [AppController],
   providers: [AppService]
