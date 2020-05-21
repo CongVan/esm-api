@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common'
+import { Module, HttpModule } from '@nestjs/common'
 import { AuthService } from './auth.service'
 import { UserModule } from '../user/user.module'
 import { PassportModule } from '@nestjs/passport'
@@ -15,6 +15,15 @@ import { PageModule } from 'src/page/page.module'
     PassportModule,
     FacebookModule,
     PageModule,
+    HttpModule.register({
+      baseURL: 'https://partner.viettelpost.vn/v2'
+    }),
+    HttpModule.registerAsync({
+      useFactory: async (config: ConfigService) => ({
+        baseURL: config.get('vtp.api_base_url')
+      }),
+      inject: [ConfigService]
+    }),
     JwtModule.registerAsync({
       useFactory: async (config: ConfigService) => ({
         secret: config.get('jwt.secret'),

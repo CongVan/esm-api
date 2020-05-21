@@ -41,4 +41,8 @@ export class UserService {
     const user = await this.userModel.findOneAndUpdate(query, update, options)
     return user
   }
+  async findByIdAndUpdate(id, update, options): Promise<UserDTO> | null {
+    const user = await this.userModel.findByIdAndUpdate(id, update, options)
+    return user
+  }
 }

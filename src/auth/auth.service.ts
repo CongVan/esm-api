@@ -1,4 +1,9 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common'
+import {
+  Injectable,
+  HttpException,
+  HttpStatus,
+  HttpService
+} from '@nestjs/common'
 import { UserService } from 'src/user/user.service'
 import { UserDTO } from 'src/user/user.dto'
 import { JwtService } from '@nestjs/jwt'
@@ -12,7 +17,8 @@ export class AuthService {
     private userService: UserService,
     private jwtService: JwtService,
     private facebookService: FacebookService,
-    private pageService: PageService
+    private pageService: PageService,
+    private httpService: HttpService
   ) {}
 
   async validateUser(username: string, password: string): Promise<any> {
@@ -53,8 +59,27 @@ export class AuthService {
     )
     await this.facebookService.addJobSyncUserInfo(userUpdate)
 
-
-
     return { access_token: this.jwtService.sign({ user: userUpdate }) }
+  }
+
+  async loginViettelPost({ username, password }, auth: UserDTO) {
+    const { data } = await this.httpService
+      .post('/user/Login', { USERNAME: username, PASSWORD: password })
+      .toPromise()
+
+    const { data: userVtp } = data
+    console.log(userVtp)
+
+    const user = await this.userService.findByIdAndUpdate(
+      auth._id,
+      { vtp_access_token: userVtp.token },
+      { new: true, useFindAndModify: false }
+    )
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND)
+    }
+
+    return user
   }
 }

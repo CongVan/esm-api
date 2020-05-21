@@ -24,10 +24,22 @@ export class AuthController {
   async login(@Body() user: UserDTO, @Param() params, @Query() query) {
     const { platform } = params
     if (platform === 'fb') {
-      
-      return await this.authService.loginWithFacebook(user.fb_access_token, query.userId)
+      return await this.authService.loginWithFacebook(
+        user.fb_access_token,
+        query.userId
+      )
     }
     return await this.authService.login(user)
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('login-shipment/:platform')
+  async loginShipment(@Body() user: UserDTO, @Param() params, @Request() req) {
+    const { platform } = params
+    if (platform === 'vtp') {
+      return await this.authService.loginViettelPost(user, req.user)
+    }
+    return { data: null }
   }
 
   @Post('register')

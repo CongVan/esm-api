@@ -14,5 +14,8 @@ export default () => ({
   redis: {
     host: process.env.REDIS_HOST || 'localhost',
     port: process.env.REDIS_PORT || 6379
+  },
+  vtp: {
+    api_base_url: 'https://partner.viettelpost.vn/v2'
   }
 })
