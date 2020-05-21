@@ -2,6 +2,7 @@ import { IsNotEmpty } from 'class-validator'
 export class ProductDTO {
   @IsNotEmpty()
   readonly name: string
+  readonly description: string
   readonly images: string
   @IsNotEmpty()
   readonly original_price: Int16Array

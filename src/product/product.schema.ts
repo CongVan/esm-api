@@ -4,6 +4,7 @@ import * as mongoosePaginate from 'mongoose-paginate-v2'
 export const ProductSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
+    description: { type: String },
     images: { type: String },
     original_price: { type: Number, required: true },
     sell_price: { type: Number, required: true },
