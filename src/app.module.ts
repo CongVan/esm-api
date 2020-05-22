@@ -16,6 +16,7 @@ import { WinstonModule } from 'nest-winston'
 import { WinstonConfigService } from './logger/WinstonConfigService'
 import { PostModule } from './post/post.module';
 import { CommentModule } from './comment/comment.module';
+import { ViettelPostModule } from './viettel-post/viettel-post.module';
 
 @Module({
   imports: [
@@ -36,7 +37,8 @@ import { CommentModule } from './comment/comment.module';
     FacebookModule,
     PageModule,
     PostModule,
-    CommentModule
+    CommentModule,
+    ViettelPostModule
   ],
   controllers: [AppController],
   providers: [AppService]

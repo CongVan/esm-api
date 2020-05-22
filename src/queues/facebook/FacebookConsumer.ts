@@ -40,14 +40,16 @@ export class FacebookConsumer {
 
     const comments = await this.facebookService.syncComments(
       posts,
-      pages,
-      user.fb_access_token
+      user.fb_access_token,
+      pages
     )
 
-    
-
     await this.commentService.addComments(comments)
-
+    const childComments = await this.facebookService.syncComments(
+      comments,
+      user.fb_access_token
+    )
+    await this.commentService.addComments(childComments)
     this.logger.info(
       `Job: ${job.id}, user: ${user._id}: Sync user info success`
     )

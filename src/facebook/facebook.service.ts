@@ -92,8 +92,8 @@ export class FacebookService {
 
   async syncComments(
     objectComment: PostDTO[] | CommentDTO[] | any,
-    pages: PageDTO[],
-    access_token
+    access_token,
+    pages?: PageDTO[]
   ): Promise<CommentDTO[]> {
     const comments: CommentDTO[] | any = await Promise.all(
       objectComment.map(async object => {
@@ -101,7 +101,7 @@ export class FacebookService {
         let commentsDTO: CommentDTO[] = new Array<CommentDTO>()
         let after = ''
         let token = access_token
-        const page = pages.find(page => page.page_id === object.page_id)
+        const page = pages && pages.find(page => page.page_id === object.page_id)
         if (page) {
           token = page.access_token
         }
@@ -115,7 +115,7 @@ export class FacebookService {
             })
             .catch(err => {
               this.logger.error(
-                `Sync Comments: Post: ${object.post_id}: ${err.toString()}`
+                `Sync Comments: Post: ${object.post_id}: ${err}`
               )
             })
 

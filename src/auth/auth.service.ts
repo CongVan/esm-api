@@ -68,7 +68,11 @@ export class AuthService {
       .toPromise()
 
     const { data: userVtp } = data
-    console.log(userVtp)
+
+    if(!userVtp) {
+      throw new HttpException('Username/password invalid', HttpStatus.NOT_FOUND)
+    }
+    console.log(data)
 
     const user = await this.userService.findByIdAndUpdate(
       auth._id,

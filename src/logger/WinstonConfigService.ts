@@ -12,7 +12,8 @@ export class WinstonConfigService implements WinstonModuleOptionsFactory {
     const { combine, timestamp, label, printf } = format
 
     const myFormat = printf(({ level, message, timestamp }) => {
-      return `${timestamp} ${level.toUpperCase()}: ${message}`
+      const date = new Date(timestamp)
+      return `${date.toLocaleDateString()}, ${date.toLocaleTimeString()} ${level.toUpperCase()}: ${message}`
     })
 
     return winston.createLogger({
